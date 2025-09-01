@@ -1,0 +1,45 @@
+import random
+
+class Carta:
+    def __init__(self, nome, populacao, area, densidade, economia, infraestrutura):
+        self.nome = nome
+        self.populacao = populacao
+        self.area = area
+        self.densidade = densidade
+        self.economia = economia
+        self.infraestrutura = infraestrutura
+
+    def __str__(self):
+        return f"{self.nome} - População: {self.populacao}, Área: {self.area}, Densidade: {self.densidade}, Economia: {self.economia}, Infraestrutura: {self.infraestrutura}"
+
+class Jogo:
+    def __init__(self):
+        self.cartas = []
+
+    def adicionar_carta(self, carta):
+        self.cartas.append(carta)
+
+    def jogar(self):
+        carta1 = random.choice(self.cartas)
+        carta2 = random.choice(self.cartas)
+
+        print(f"Carta 1: {carta1}")
+        print(f"Carta 2: {carta2}")
+
+        atributo = input("Escolha um atributo (populacao, area, densidade, economia, infraestrutura): ")
+
+        if getattr(carta1, atributo) > getattr(carta2, atributo):
+            print("Carta 1 ganha!")
+        elif getattr(carta1, atributo) < getattr(carta2, atributo):
+            print("Carta 2 ganha!")
+        else:
+            print("Empate!")
+
+jogo = Jogo()
+
+# Adicionar cartas ao jogo
+jogo.adicionar_carta(Carta("São Paulo", 22000000, 1521, 8143, 9, 8))
+jogo.adicionar_carta(Carta("Rio de Janeiro", 6700000, 1200, 5583, 8, 7))
+jogo.adicionar_carta(Carta("Belo Horizonte", 2500000, 331, 7553, 7, 6))
+
+jogo.jogar()
