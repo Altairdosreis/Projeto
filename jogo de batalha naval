@@ -1,0 +1,55 @@
+import random
+
+class Navio:
+    def __init__(self, nome, tamanho):
+        self.nome = nome
+        self.tamanho = tamanho
+        self.posicao = None
+
+    def __str__(self):
+        return f"{self.nome} ({self.tamanho} unidades)"
+
+class Tabuleiro:
+    def __init__(self, largura, altura):
+        self.largura = largura
+        self.altura = altura
+        self.navios = []
+        self.tiros = []
+
+    def adicionar_navio(self, navio, x, y, orientacao):
+        navio.posicao = (x, y)
+        self.navios.append(navio)
+
+    def atirar(self, x, y):
+        self.tiros.append((x, y))
+        for navio in self.navios:
+            if navio.posicao[0] <= x < navio.posicao[0] + navio.tamanho and navio.posicao[1] == y:
+                print("Acertou!")
+                return True
+        print("Errou!")
+        return False
+
+    def imprimir_tabuleiro(self):
+        for y in range(self.altura):
+            for x in range(self.largura):
+                if (x, y) in self.tiros:
+                    print("X", end=" ")
+                else:
+                    print(".", end=" ")
+            print()
+
+def jogo():
+    tabuleiro = Tabuleiro(10, 10)
+    navio = Navio("Porta-aviões", 5)
+    tabuleiro.adicionar_navio(navio, 3, 5, "horizontal")
+
+    while True:
+        tabuleiro.imprimir_tabuleiro()
+        x = int(input("Digite a coordenada x: "))
+        y = int(input("Digite a coordenada y: "))
+        if tabuleiro.atirar(x, y):
+            print("Você acertou o navio!")
+        else:
+            print("Você errou!")
+
+jogo()
