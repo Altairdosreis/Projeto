@@ -1,0 +1,70 @@
+import random
+
+class Carta:
+    def __init__(self, nome, forca, velocidade, inteligencia, resistencia, poder, habilidade=None):
+        self.nome = nome
+        self.forca = forca
+        self.velocidade = velocidade
+        self.inteligencia = inteligencia
+        self.resistencia = resistencia
+        self.poder = poder
+        self.habilidade = habilidade
+
+    def __str__(self):
+        return f"{self.nome} - Força: {self.forca}, Velocidade: {self.velocidade}, Inteligência: {self.inteligencia}, Resistência: {self.resistencia}, Poder: {self.poder}"
+
+class Jogo:
+    def __init__(self):
+        self.cartas = []
+        self.jogadores = []
+        self.pontuacao = {}
+
+    def adicionar_carta(self, carta):
+        self.cartas.append(carta)
+
+    def adicionar_jogador(self, jogador):
+        self.jogadores.append(jogador)
+        self.pontuacao[jogador.nome] = 0
+
+    def jogar(self):
+        carta1 = random.choice(self.cartas)
+        carta2 = random.choice(self.cartas)
+
+        print(f"Carta 1: {carta1}")
+        print(f"Carta 2: {carta2}")
+
+        atributo = input("Escolha um atributo (forca, velocidade, inteligencia, resistencia, poder): ")
+
+        if carta1.habilidade == "imunidade" and atributo in ["forca", "velocidade"]:
+            print("Carta 1 é imune ao atributo escolhido!")
+            self.pontuacao[self.jogadores[0].nome] += 1
+        elif getattr(carta1, atributo) > getattr(carta2, atributo):
+            print("Carta 1 ganha!")
+            self.pontuacao[self.jogadores[0].nome] += 1
+        elif getattr(carta1, atributo) < getattr(carta2, atributo):
+            print("Carta 2 ganha!")
+            self.pontuacao[self.jogadores[1].nome] += 1
+        else:
+            print("Empate!")
+
+        print(f"Pontuação: {self.pontuacao}")
+
+class Jogador:
+    def __init__(self, nome):
+        self.nome = nome
+
+jogo = Jogo()
+
+# Adicionar cartas ao jogo
+jogo.adicionar_carta(Carta("Superman", 9, 10, 8, 9, 10))
+jogo.adicionar_carta(Carta("Batman", 6, 7, 10, 8, 6, habilidade="imunidade"))
+jogo.adicionar_carta(Carta("Mulher-Maravilha", 8, 9, 7, 8, 9))
+
+# Adicionar jogadores ao jogo
+jogo.adicionar_jogador(Jogador("Jogador 1"))
+jogo.adicionar_jogador(Jogador("Jogador 2"))
+
+for i in range(5):
+    jogo.jogar()
+
+print(f"Vencedor: {max(jogo.pontuacao, key=jogo.pontuacao.get)}")
