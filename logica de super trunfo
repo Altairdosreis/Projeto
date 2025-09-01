@@ -1,0 +1,80 @@
+import random
+
+class Carta:
+    def __init__(self, nome, populacao, area, densidade, economia, infraestrutura):
+        self.nome = nome
+        self.populacao = populacao
+        self.area = area
+        self.densidade = densidade
+        self.economia = economia
+        self.infraestrutura = infraestrutura
+
+    def __str__(self):
+        return f"{self.nome} - População: {self.populacao}, Área: {self.area}, Densidade: {self.densidade}, Economia: {self.economia}, Infraestrutura: {self.infraestrutura}"
+
+class Jogo:
+    def __init__(self):
+        self.cartas = []
+        self.jogador1 = []
+        self.jogador2 = []
+
+    def adicionar_carta(self, carta):
+        self.cartas.append(carta)
+
+    def distribuir_cartas(self):
+        random.shuffle(self.cartas)
+        self.jogador1 = self.cartas[:len(self.cartas)//2]
+        self.jogador2 = self.cartas[len(self.cartas)//2:]
+
+    def jogar(self):
+        while len(self.jogador1) > 0 and len(self.jogador2) > 0:
+            carta1 = self.jogador1[0]
+            carta2 = self.jogador2[0]
+
+            print(f"Carta 1: {carta1}")
+            print(f"Carta 2: {carta2}")
+
+            atributo = random.choice(["populacao", "area", "densidade", "economia", "infraestrutura"])
+
+            print(f"Atributo escolhido: {atributo}")
+
+            if getattr(carta1, atributo) > getattr(carta2, atributo):
+                print("Jogador 1 ganha!")
+                self.jogador1.append(carta1)
+                self.jogador1.append(carta2)
+                self.jogador1.pop(0)
+                self.jogador2.pop(0)
+            elif getattr(carta1, atributo) < getattr(carta2, atributo):
+                print("Jogador 2 ganha!")
+                self.jogador2.append(carta1)
+                self.jogador2.append(carta2)
+                self.jogador1.pop(0)
+                self.jogador2.pop(0)
+            else:
+                print("Empate!")
+                self.jogador1.append(carta1)
+                self.jogador2.append(carta2)
+                self.jogador1.pop(0)
+                self.jogador2.pop(0)
+
+            print(f"Jogador 1 tem {len(self.jogador1)} cartas")
+            print(f"Jogador 2 tem {len(self.jogador2)} cartas")
+            print()
+
+        if len(self.jogador1) > 0:
+            print("Jogador 1 ganhou o jogo!")
+        else:
+            print("Jogador 2 ganhou o jogo!")
+
+jogo = Jogo()
+
+# Adicionar cartas ao jogo
+jogo.adicionar_carta(Carta("São Paulo", 22000000, 1521, 8143, 9, 8))
+jogo.adicionar_carta(Carta("Rio de Janeiro", 6700000, 1200, 5583, 8, 7))
+jogo.adicionar_carta(Carta("Belo Horizonte", 2500000, 331, 7553, 7, 6))
+jogo.adicionar_carta(Carta("Porto Alegre", 1500000, 218, 6881, 6, 5))
+jogo.adicionar_carta(Carta("Recife", 1700000, 218, 7791, 5, 4))
+jogo.adicionar_carta(Carta("Salvador", 2900000, 693, 4181, 4, 3))
+
+jogo.distribuir_cartas()
+jogo.jogar()
