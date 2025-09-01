@@ -1,0 +1,60 @@
+class Peca:
+    def __init__(self, nome, cor, x, y):
+        self.nome = nome
+        self.cor = cor
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return f"{self.nome} {self.cor} em ({self.x}, {self.y})"
+
+class Tabuleiro:
+    def __init__(self):
+        self.pecas = []
+
+    def adicionar_peca(self, peca):
+        self.pecas.append(peca)
+
+    def movimentar_peca(self, nome, x, y):
+        for peca in self.pecas:
+            if peca.nome == nome:
+                peca.x = x
+                peca.y = y
+                print(f"Peca {nome} movimentada para ({x}, {y})")
+                return
+        print("Peca não encontrada")
+
+    def imprimir_tabuleiro(self):
+        for y in range(8):
+            for x in range(8):
+                for peca in self.pecas:
+                    if peca.x == x and peca.y == y:
+                        print(peca.nome[0], end=" ")
+                        break
+                else:
+                    print(".", end=" ")
+            print()
+
+tabuleiro = Tabuleiro()
+
+# Adicionar peças ao tabuleiro
+tabuleiro.adicionar_peca(Peca("Rei", "Branco", 4, 0))
+tabuleiro.adicionar_peca(Peca("Rainha", "Branco", 3, 0))
+tabuleiro.adicionar_peca(Peca("Torre", "Branco", 0, 0))
+tabuleiro.adicionar_peca(Peca("Torre", "Branco", 7, 0))
+tabuleiro.adicionar_peca(Peca("Cavalo", "Branco", 1, 0))
+tabuleiro.adicionar_peca(Peca("Cavalo", "Branco", 6, 0))
+tabuleiro.adicionar_peca(Peca("Bispo", "Branco", 2, 0))
+tabuleiro.adicionar_peca(Peca("Bispo", "Branco", 5, 0))
+
+# Imprimir tabuleiro inicial
+print("Tabuleiro inicial:")
+tabuleiro.imprimir_tabuleiro()
+
+# Movimentar peças
+tabuleiro.movimentar_peca("Rei", 4, 1)
+tabuleiro.movimentar_peca("Cavalo", 2, 2)
+
+# Imprimir tabuleiro após movimentação
+print("\nTabuleiro após movimentação:")
+tabuleiro.imprimir_tabuleiro()
